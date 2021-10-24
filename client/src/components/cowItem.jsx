@@ -7,6 +7,7 @@ class CowItem extends React.Component {
     // { handleClick = fn cowList.handleClick, key = i, cowInfo = cowObject }
 
     this.handleDisplayClick = this.handleDisplayClick.bind(this);
+    // this.renderStar = this.renderStar.bind(this)
   }
 
   handleDisplayClick() {

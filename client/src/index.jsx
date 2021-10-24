@@ -29,7 +29,7 @@ class App extends React.Component {
       .then( (cows) => {
         this.setState({
           cows: cows.data,
-          selectedCow: cows.data[0]
+          selectedCow: cows.data[0] || {}
         });
       })
       .catch( (err) => {
@@ -54,7 +54,7 @@ class App extends React.Component {
           .then( (cows) => {
             this.setState({
               cows: cows.data,
-              selectedCow: { name: cow.name, description: updatedDescription }
+              selectedCow: { name: cow.name, description: updatedDescription } || {}
             })
           })
           .catch( (err) => {
@@ -74,7 +74,7 @@ class App extends React.Component {
           .then( (cows) => {
             this.setState({
               cows: cows.data,
-              selectedCow: cows.data[0]
+              selectedCow: cows.data[0] || {}
             })
           })
           .catch( (err) => {
@@ -113,6 +113,7 @@ class App extends React.Component {
         <div className='cow-display'>
           <h1>Special cow go here</h1>
           <CowView
+            cows={this.state.cows}
             cow={this.state.selectedCow}
             onSubmit={this.updateCow}
             onDeleteClick={this.deleteCow}

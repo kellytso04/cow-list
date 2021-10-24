@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 class CowForm extends React.Component {
   constructor(props) {
-    super(props); // onSubmit = add new cow fn
+    super(props); // onSubmit = add new cow fn, cows = cow list
 
     this.state = {
       name: '',
