@@ -15,8 +15,10 @@ class App extends React.Component {
     }
 
     // Bind methods:
-    this.handleCowClick = this.handleCowClick.bind(this);
-    this.handleAddNewCowSubmit = this.handleAddNewCowSubmit.bind(this);
+    this.displayCow = this.displayCow.bind(this);
+    this.updateCow = this.updateCow.bind(this);
+    this.deleteCow = this.deleteCow.bind(this);
+    this.submitNewCow = this.submitNewCow.bind(this);
   }
 
   // √ On load, make a GET req to the API for cow details
@@ -37,16 +39,55 @@ class App extends React.Component {
   }
 
   // √ On click, will select a new cow to display
-  handleCowClick( cow ) {
-    console.log('index.jsx | Selected cow: ', cow);
+  displayCow( cow ) {
     this.setState({
       cows: this.state.cows,
       selectedCow: cow,
     })
   }
 
+  // On click, updates record in database
+  updateCow(cow, updatedDescription) {
+    axios.put('/api/cows', {name: cow.name, description: updatedDescription})
+      .then( () => {
+        return axios.get('/api/cows')
+          .then( (cows) => {
+            this.setState({
+              cows: cows.data,
+              selectedCow: { name: cow.name, description: updatedDescription }
+            })
+          })
+          .catch( (err) => {
+            console.error('index.jsx | failed to get updated cows')
+          });
+      })
+      .catch( (err) => {
+        console.error('index.jsx | failed to update cow')
+      })
+  }
+
+  // √ On click, will delete record in database
+  deleteCow( cow ) {
+    axios.delete(`/api/cows?name=${cow.name}`)
+      .then( () => {
+        return axios.get('/api/cows')
+          .then( (cows) => {
+            this.setState({
+              cows: cows.data,
+              selectedCow: cows.data[0]
+            })
+          })
+          .catch( (err) => {
+            console.error('index.jsx | failed to get updated cows')
+          });
+      })
+      .catch( (err) => {
+        console.error('index.jsx | failed to delete cow');
+      })
+  }
+
   // √ Makes POST req to the database with cow info
-  handleAddNewCowSubmit( cowInfo ) {
+  submitNewCow( cowInfo ) {
     return axios.post('/api/cows', cowInfo)
       .then( () => {
 
@@ -71,17 +112,24 @@ class App extends React.Component {
       <div>
         <div className='cow-display'>
           <h1>Special cow go here</h1>
-          <CowView cow={this.state.selectedCow} />
+          <CowView
+            cow={this.state.selectedCow}
+            onSubmit={this.updateCow}
+            onDeleteClick={this.deleteCow}
+          />
         </div>
         <br></br>
         <div>
           <section className='add-cow'>
-            <CowForm onSubmit={this.handleAddNewCowSubmit} />
+            <CowForm onSubmit={this.submitNewCow} />
           </section>
           <br></br>
           <section className='cow-list'>
             <h2>Cows go here</h2>
-            <CowList onClick={this.handleCowClick} cows={this.state.cows} />
+            <CowList
+              cows={this.state.cows}
+              onDisplayClick={this.displayCow}
+            />
           </section>
         </div>
       </div>

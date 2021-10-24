@@ -34,6 +34,10 @@ class CowForm extends React.Component {
     e.preventDefault();
 
     this.props.onSubmit(this.state);
+    this.setState({
+      name: '',
+      description: '',
+    })
   }
 
   render() {
@@ -45,11 +49,13 @@ class CowForm extends React.Component {
             onChange={this.handleNameChange}
             type='text'
             placeholder='Name'
+            value={this.state.name}
           />
           <input
             onChange={this.handleDescriptionChange}
             type='text'
             placeholder='Description'
+            value={this.state.description}
           />
           <button type='submit'>Add me!</button>
         </form>
