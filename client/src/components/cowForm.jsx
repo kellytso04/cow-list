@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// TODO: Build this out
 class CowForm extends React.Component {
   constructor(props) {
     super(props); // onSubmit = add new cow fn
