@@ -46,6 +46,32 @@ app.post('/api/cows', (req, res) => {
   });
 });
 
+app.put('/api/cows', (req, res) => {
+  let queryString = `UPDATE cows SET description=(?) WHERE name=(?)`;
+  let queryArgs = [ req.body.description, req.body.name ]
+  db.query(queryString, queryArgs, (err) => {
+    if (err) {
+      console.error('server | failed to update cow')
+    } else {
+      res.sendStatus(201);
+    }
+  })
+})
+
+app.delete('/api/cows', (req, res) => {
+  let queryString = 'DELETE FROM cows WHERE name=(?)';
+  let queryArgs = [ req.query.name ];
+
+  db.query(queryString, queryArgs, (err) => {
+    if (err) {
+      console.error(err);
+      console.error('server | failed to delete cow')
+    } else {
+      res.sendStatus(204);
+    }
+  });
+})
+
 app.listen(PORT, () => {
   console.log(`Server listening at localhost:${PORT}! 🐠`);
 });
