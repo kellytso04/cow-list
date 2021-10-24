@@ -31,12 +31,14 @@ app.post('/api/cows', (req, res) => {
 
   db.query(queryString, queryArgs, (err) => {
     if (err) {
+      console.error(err);
       console.error('server | add new cow failed');
     } else {
       queryString = 'SELECT * FROM cows';
 
       db.query(queryString, (err, cows) => {
         if (err) {
+          console.error(err);
           console.error('server | refresh cows failed');
         } else {
           res.status(200).send(cows);
