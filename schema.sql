@@ -1,6 +1,12 @@
--- ATTN WINDOWS USERS: Some of you might have an easier time just copying and pasting the lines below in to your mysql shell
+-- CREATE DATABASE cowList;
+USE cowList;
 
--- YOUR CODE GOES HERE
--- CREATE YOUR DATABASE
--- CREATE YOUR TABLES
--- ADD RECORDS TO YOUR TABLE
+DROP TABLE IF EXISTS cows;
+
+CREATE TABLE cows (
+  cow_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(60) NOT NULL UNIQUE,
+  description VARCHAR(255) NOT NULL
+);
+
+-- mysql -u root -p < schema.sql

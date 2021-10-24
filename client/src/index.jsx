@@ -5,7 +5,6 @@ import CowView from './components/cowView.jsx';
 import CowForm from './components/cowForm.jsx';
 import axios from 'axios';
 
-// TODO: Set up your App component!
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -20,18 +19,15 @@ class App extends React.Component {
     this.handleAddNewCowSubmit = this.handleAddNewCowSubmit.bind(this);
   }
 
-  // TODO: On load, make a GET req to the API for cow details
+  // √ On load, make a GET req to the API for cow details
   // √ CowList is going to be results back from the API
-  // TODO: CowView is going to display the last entry in the results
+  // √ CowView is going to display the last entry in the results
   componentDidMount() {
-    console.log('Mounting app');
-
     return axios.get('/api/cows')
       .then( (cows) => {
-        console.log('index.jsx | received back cows: ', cows.data);
         this.setState({
           cows: cows.data,
-          selectedCow: cows.data[cows.data.length - 1]
+          selectedCow: cows.data[0]
         });
       })
       .catch( (err) => {
@@ -40,26 +36,22 @@ class App extends React.Component {
       });
   }
 
-  // On click, will select a new cow to display
+  // √ On click, will select a new cow to display
   handleCowClick( cow ) {
-    console.log('Selected cow: ', cow);
+    console.log('index.jsx | Selected cow: ', cow);
     this.setState({
       cows: this.state.cows,
       selectedCow: cow,
     })
   }
 
-  // Makes POST req to the database with cow info
+  // √ Makes POST req to the database with cow info
   handleAddNewCowSubmit( cowInfo ) {
-    console.log('Adding new cow: ', cowInfo); // { name: '', description: '' }
-
     return axios.post('/api/cows', cowInfo)
       .then( () => {
-        console.log(`Successfully added ${cowInfo.name}`);
 
         return axios.get('/api/cows')
           .then( (cows) => {
-            console.log('index.jsx | updated cows: ', cows.data);
             this.setState({
               cows: cows.data,
               selectedCow: cows.data[cows.data.length - 1]
@@ -79,7 +71,7 @@ class App extends React.Component {
       <div>
         <div className='cow-display'>
           <h1>Special cow go here</h1>
-          <CowView selectedCow={this.state.selectedCow} />
+          <CowView cow={this.state.selectedCow} />
         </div>
         <br></br>
         <div>

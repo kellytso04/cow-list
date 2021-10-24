@@ -17,9 +17,9 @@ class CowList extends React.Component {
   }
 
   // TODO: On click, calls onClick
-  handleClick(e) {
-    console.log('Chosen cow: ', e.target.value); // should be an {}
-    this.props.onClick(e.target.value);
+  handleClick(selectedCow) {
+    console.log('Chosen cow: ', selectedCow.name); // should be an {}
+    this.props.onClick(selectedCow);
   }
 
   render() {
